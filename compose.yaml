@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  weather-app:
+    image: myweatherapp:latest
+    build: .
+    ports:
+      - "8080:5000"
