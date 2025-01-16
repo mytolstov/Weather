@@ -107,6 +107,22 @@ public class Weather {
         this.image = image;
     }
 
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "city='" + city + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", temperature='" + temperature + '\'' +
+                ", rain='" + rain + '\'' +
+                ", cloudy='" + cloudy + '\'' +
+                ", windSp='" + windSp + '\'' +
+                ", windSpeedNum=" + windSpeedNum +
+                ", isDay='" + isDay + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
+
     //Main
     public void weather1(String city) {
 
@@ -143,17 +159,19 @@ public class Weather {
                 System.out.println();
                 System.out.println("-".repeat(30));
                 //тут
+                locationMap.put("latitude",latitude);
+                locationMap.put("longitude",longitude);
+                zuweisungLocation(locationMap);
+                zuweisung(weather2(latitude,longitude));
             } else {
+                //нужно обработать не нахождение
                 System.out.println("City not found.");
             }
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        locationMap.put("latitude",latitude);
-        locationMap.put("longitude",longitude);
-        zuweisungLocation(locationMap);
-        zuweisung(weather2(latitude,longitude));
+
     }
 
     public Map<String, String> weather2(double latitude, double longitude) {

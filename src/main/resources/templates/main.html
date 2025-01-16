@@ -40,6 +40,18 @@
             height: 240px;
         }
 
+        .addE {
+            height: 583.39px;
+        }
+
+        .addImg {
+            margin-top: 130px;
+        }
+
+        .footerDiv {
+            margin-top: 80px;
+        }
+
     </style>
 </head>
 <body>
@@ -72,6 +84,28 @@
                         <p class="card-text">Rainy: <span th:text="${city.getRain()}"></span></p>
                         <p class="card-text">Wind speed: <span th:text="${city.getWindSp()}"></span></p>
                         <p class="card-text">IsDay: <span th:text="${city.getIsDay()}"></span></p>
+
+                        <hr>
+                        <a th:href="'/remove/' + ${city.getCity()}"  class="btn btn-outline-secondary mt-2 ms-3" type="button">
+                            Remove
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+<!--            adding a new city-->
+            <div class="addE col">
+                <div class="card shadow-sm addE">
+                    <a class="addImg" href="/add_city">
+                        <img class="myclass"
+                             src="https://www.svgrepo.com/show/526462/add-square.svg"
+                             role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                             focusable="false">
+                    </a>
+
+                    <div class="card-body">
+                        <h2>Add a city</h2>
                         <hr>
                     </div>
                 </div>
@@ -81,13 +115,14 @@
     </div>
 
     <!--new-->
-
-
 </main>
 
-<footer>
-    <p>&copy; 2025 Weather forecast</p>
-</footer>
+<div class="footerDiv">
+    <footer class="d-flex justify-content-center align-items-center py-3 border-top bg-body-tertiary fixed-bottom">
+        <p>&copy; 2025 Weather forecast</p>
+    </footer>
+</div>
+
 
 </body>
 </html>
