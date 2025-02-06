@@ -10,9 +10,9 @@ public class Cities {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    protected long id;
 
-    private String title;
+    protected String title;
 
     public Cities(String title) {
         this.title = title;

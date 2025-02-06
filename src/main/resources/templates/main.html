@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Weather</title>
     <style>
         body {
@@ -52,6 +53,35 @@
             margin-top: 80px;
         }
 
+
+        /*for всплывающего окна*/
+        .toast {
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            padding: 12px 18px;
+            min-width: 250px;
+            max-width: 350px;
+        }
+
+        .toast-success {
+            background-color: #198754; /* Bootstrap success */
+            color: white;
+        }
+
+        .toast-error {
+            background-color: #dc3545; /* Bootstrap danger */
+            color: white;
+        }
+
+        .toast .btn-close {
+            filter: invert(1);
+        }
+
+        .myspan{
+            padding-left: 70px;
+        }
+
     </style>
 </head>
 <body>
@@ -62,6 +92,46 @@
 
 <main>
 
+    <!-- Контейнер для уведомлений -->
+    <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+        <!-- Ошибка -->
+        <div th:if="${errorMessage}" id="errorToast" class="toast align-items-center text-white toast-error" role="alert" data-bs-delay="2000" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <span th:text="${errorMessage}" class="myspan"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Успех -->
+        <div th:if="${successMessage}" id="successToast" class="toast align-items-center text-white toast-success" role="alert" data-bs-delay="2000" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <span th:text="${successMessage}" class="myspan"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let successToast = document.getElementById('successToast');
+            let errorToast = document.getElementById('errorToast');
+
+            if (successToast) {
+                let toast = new bootstrap.Toast(successToast);
+                toast.show();
+            }
+
+            if (errorToast) {
+                let toast = new bootstrap.Toast(errorToast);
+                toast.show();
+            }
+        });
+    </script>
+
+
+    <!-- основной код страницы-->
     <!--new-->
 
     <div class="container">
@@ -86,7 +156,7 @@
                         <p class="card-text">IsDay: <span th:text="${city.getIsDay()}"></span></p>
 
                         <hr>
-                        <a th:href="'/remove/' + ${city.getCity()}"  class="btn btn-outline-secondary mt-2 ms-3" type="button">
+                        <a th:href="'/remove/' + ${city.getId()}"  class="btn btn-outline-secondary mt-2 ms-3" type="button">
                             Remove
                         </a>
 

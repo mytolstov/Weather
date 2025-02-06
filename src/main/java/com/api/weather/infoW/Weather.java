@@ -1,6 +1,7 @@
 package com.api.weather.infoW;
 
 
+import com.api.weather.DB_tabels.Cities;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,8 +13,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Weather {
-    private String city;
+public class Weather extends Cities {
 
     private double latitude;
     private double longitude;
@@ -28,19 +28,27 @@ public class Weather {
     private String image;
 
 
-
-
-    public Weather(String city) {
-        this.city = city;
+    public Weather(String city, long id) {
+        this.title = city;
+        this.id = id;
         weather1(city);
     }
 
+    public Weather(String city) {
+        this.title = city;
+        weather1(city);
+    }
+
+    public long getId() {
+        return super.getId();
+    }
+
     public String getCity() {
-        return city;
+        return title;
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.title = city;
     }
 
     public double getLatitude() {
@@ -110,7 +118,7 @@ public class Weather {
     @Override
     public String toString() {
         return "Weather{" +
-                "city='" + city + '\'' +
+                "city='" + title + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", temperature='" + temperature + '\'' +

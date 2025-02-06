@@ -1,8 +1,47 @@
 version: '3.8'
 
 services:
-  weather-app:
-    image: myweatherapp:latest
-    build: .
+  db:
+    image: mysql:8.0
+    container_name: mysql_db_weather
     ports:
-      - "8080:5000"
+      - "3308:3306"  # Пробрасываем порт 3308 на хосте на порт 3306 внутри контейнера
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password  # Пароль root пользователя
+      MYSQL_DATABASE: weather  # Имя базы данных
+      MYSQL_USER: nikita  # Имя пользователя
+      MYSQL_PASSWORD: Nik12345!  # Пароль пользователя
+    command: --bind-address=0.0.0.0  # Слушаем на всех интерфейсах
+    volumes:
+      - db_data:/var/lib/mysql  # Для сохранения данных базы данных
+
+  phpmyadmin:
+    #обращается к контейнеру db
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_weather
+    ports:
+      - "8080:80"  # Пробрасываем порт 8080 на хосте на порт 80 внутри контейнера
+    environment:
+      PMA_HOST: db  # Имя контейнера с MySQL
+      PMA_USER: nikita  # Имя пользователя для phpMyAdmin
+      PMA_PASSWORD: Nik12345!  # Пароль пользователя для phpMyAdmin
+    depends_on:
+      - db  # Убедитесь, что контейнер с MySQL запущен до phpMyAdmin
+
+  app:
+    #обращается к контейнеру db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mainSpring_weather
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/weather
+      SPRING_DATASOURCE_USERNAME: nikita
+      SPRING_DATASOURCE_PASSWORD: Nik12345!
+    depends_on:
+      - db
+
+volumes:
+  db_data:
